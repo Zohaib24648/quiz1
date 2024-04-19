@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const  SECURITY_KEY = 'ZohaibMughal';
-
+const SECURITY_KEY = 'ZohaibMughal';  // Directly defined, used for JWT
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -8,7 +7,7 @@ const authenticateToken = (req, res, next) => {
 
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.SECURITY_KEY, (err, user) => {
+    jwt.verify(token, SECURITY_KEY, (err, user) => {  // Directly use SECURITY_KEY
         if (err) return res.sendStatus(403);
         req.user = user;
         next();

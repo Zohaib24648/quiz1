@@ -4,6 +4,8 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('../middleware/authenticateToken');
+const SECURITY_KEY = 'ZohaibMughal';  // Directly defined, used for JWT
+
 
 router.post('/signup', async (req, res) => {
     const { name, email, password, admin = false } = req.body;
@@ -24,7 +26,7 @@ router.post('/login', async (req, res) => {
     if (!user || !await bcrypt.compare(password, user.password)) {
         return res.status(401).send('Authentication failed');
     }
-    const token = jwt.sign({ userId: user._id, admin: user.admin }, process.env.JWT_SECRET);
+    const token = jwt.sign({ userId: user._id, admin: user.admin }, SECURITY_KEY);
     res.json({ token });
 });
 
